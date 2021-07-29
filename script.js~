@@ -1,0 +1,71 @@
+ 
+ 
+ //import express modules
+ 
+ const express    =  require("express");
+ const bodyparser =  require("body-parser");
+ 
+ 
+ // load express moduels to  App variable 
+ 
+ const app = express();
+ app.use(bodyparser.urlencoded({extended:true}));
+ 
+ 
+ 
+// send index.html 
+ app.get("/bmicalculator",function(req,res){
+     res.sendFile( __dirname+'/' + 'index.html');
+     
+ });
+ 
+ 
+ // post data through specific route 
+ 
+  app.post("/bmicalculator",function (req,res){
+      
+       heigh = ParseFloat(req.body.height);
+       weigh = ParseFloat(req.body.weight);
+       bmi   = weigh/(heigh*heigh);
+      
+      
+      // convert to string 
+      bmi = bmi.toFixed();
+      req_nam = req.body.Name;
+      
+      if(bmi<19)
+      {     
+      res.send( "<center><h3> hey " + req_nam + 
+    " your bmi is around "+bmi+
+    "<center><h1>you are underweight!");
+      }
+      
+      else if(bmi <=19  && bmi>25)
+      {
+     res.send( "<center><h3> hey" + req_nam + 
+   "your bmi is around "+bmi+
+   "<center><h1>you are Normalweight!");
+      } 
+      else if (bmi <=25 && bmi < 30)
+      {
+      res.send( "<center><h3> hey" + req_nam + 
+    "your bmi is around "+bmi+
+    "<center><h1>you are overweight!");
+       }
+       
+      else {
+        
+        res.send( "<center><h3> hey" + req_nam + 
+      "your bmi is around "+bmi+
+      "<center><h1>you are Obese!");
+            
+      }
+  });
+  
+  
+  
+app.listen(7777,function(){
+    
+    console.log("port active at 7777");
+    
+});  
